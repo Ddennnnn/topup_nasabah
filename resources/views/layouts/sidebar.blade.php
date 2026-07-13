@@ -8,7 +8,7 @@
         </a>
 
         <!-- Pocket -->
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link {{ request()->routeIs('pocket.*') ? 'active' : '' }}" href="{{ route('pocket.index') }}">
             <i class="bi bi-wallet2"></i>
             <span>Pocket</span>
         </a>

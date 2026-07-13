@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the pockets for the user.
+     */
+    public function pockets()
+    {
+        return $this->hasMany(Pocket::class);
+    }
 }
