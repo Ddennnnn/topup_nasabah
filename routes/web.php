@@ -3,6 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PocketController;
 use App\Http\Controllers\TopupController;
+use App\Http\Controllers\PocketTransferController;
+use App\Http\Controllers\TransferController;
+use App\Http\Controllers\RiwayatController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +38,25 @@ Route::middleware('auth')->group(function () {
 
     // Topup routes
     Route::resource('topup', TopupController::class)->only(['index', 'create', 'store']);
+
+    // Pocket Transfer routes
+    Route::resource('pocket_transfer', PocketTransferController::class)->only(['index', 'create', 'store']);
+
+    // Transfer routes (antar user)
+    Route::resource('transfer', TransferController::class)->only(['index', 'create', 'store']);
+
+    // Riwayat routes
+    Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+
+    // Admin routes
+    Route::prefix('admin')->middleware('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+        Route::get('/transfers', [AdminController::class, 'transfers'])->name('admin.transfers');
+        Route::get('/topups', [AdminController::class, 'topups'])->name('admin.topups');
+        Route::get('/pockets', [AdminController::class, 'pockets'])->name('admin.pockets');
+        Route::get('/history', [AdminController::class, 'history'])->name('admin.history');
+    });
 });
 
 require __DIR__.'/auth.php';

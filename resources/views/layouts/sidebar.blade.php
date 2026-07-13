@@ -20,19 +20,32 @@
         </a>
 
         <!-- Transfer -->
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link {{ request()->routeIs('pocket_transfer.*') ? 'active' : '' }}" href="{{ route('pocket_transfer.index') }}">
             <i class="bi bi-arrow-left-right"></i>
-            <span>Transfer</span>
+            <span>Pindah Dana</span>
+        </a>
+
+        <!-- Kirim Transfer -->
+        <a class="nav-link {{ request()->routeIs('transfer.*') ? 'active' : '' }}" href="{{ route('transfer.index') }}">
+            <i class="bi bi-send"></i>
+            <span>Kirim Transfer</span>
         </a>
 
         <!-- Riwayat -->
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link {{ request()->routeIs('riwayat.*') ? 'active' : '' }}" href="{{ route('riwayat.index') }}">
             <i class="bi bi-clock-history"></i>
             <span>Riwayat</span>
         </a>
 
         <!-- Divider -->
         <hr class="my-2" style="margin-left: 1.5rem; margin-right: 1.5rem;">
+
+        @if (Auth::check() && Auth::user()->role === 'admin')
+        <a class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+            <i class="bi bi-shield-lock"></i>
+            <span>Admin</span>
+        </a>
+        @endif
 
         <!-- Profile -->
         <a class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}" href="{{ route('profile.edit') }}">

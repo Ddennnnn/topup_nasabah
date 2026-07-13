@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nomor_rekening',
+        'role',
     ];
 
     /**
@@ -72,5 +74,41 @@ class User extends Authenticatable
     public function getTotalTopupAttribute()
     {
         return $this->topups()->where('status', 'SUCCESS')->sum('nominal');
+    }
+
+    /**
+     * Get the pocket transfers for the user.
+     */
+    public function pocketTransfers()
+    {
+        return $this->hasMany(PocketTransfer::class);
+    }
+
+    /**
+     * Get transfers sent by the user.
+     */
+    public function transfersSent()
+    {
+        return $this->hasMany(Transfer::class, 'pengirim_id');
+    }
+
+    /**
+     * Get transfers received by the user.
+     */
+    public function transfersReceived()
+    {
+        return $this->hasMany(Transfer::class, 'penerima_id');
+    }
+
+    /**
+     * Generate unique account number.
+     */
+    public static function generateNomorRekening()
+    {
+        do {
+            $nomor = '90' . rand(10000000, 99999999);
+        } while (self::where('nomor_rekening', $nomor)->exists());
+
+        return $nomor;
     }
 }

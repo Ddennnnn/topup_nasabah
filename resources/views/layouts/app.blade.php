@@ -176,7 +176,11 @@
 
                 <!-- Page Content -->
                 <div class="container-lg">
-                    {{ $slot }}
+                    @hasSection('content')
+                        @yield('content')
+                    @else
+                        {{ $slot }}
+                    @endif
                 </div>
             </div>
         </div>
@@ -184,10 +188,52 @@
         <!-- Sidebar Overlay (Mobile) -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+        @php
+            $flashMessages = collect([
+                ['type' => 'success', 'message' => session('success')],
+                ['type' => 'danger', 'message' => session('error')],
+                ['type' => 'warning', 'message' => session('warning')],
+            ])->filter(fn ($item) => !empty($item['message']));
+        @endphp
+
+        @if ($flashMessages->isNotEmpty())
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+                @foreach ($flashMessages as $flash)
+                    <div class="toast align-items-center text-bg-{{ $flash['type'] }} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                {{ $flash['message'] }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
         <!-- Bootstrap 5 JS Bundle -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('form').forEach(function (form) {
+                    form.addEventListener('submit', function () {
+                        const button = form.querySelector('button[type="submit"]');
+                        if (!button) return;
+                        if (button.dataset.loading === 'true') return;
+
+                        button.dataset.loading = 'true';
+                        button.disabled = true;
+                        const originalHtml = button.innerHTML;
+                        button.setAttribute('data-original-html', originalHtml);
+                        button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...';
+                    });
+                });
+
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach((toastEl) => new bootstrap.Toast(toastEl, { delay: 4000 }).show());
+            });
+
             // Sidebar Toggle
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebar = document.querySelector('.sidebar');
