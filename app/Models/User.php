@@ -49,4 +49,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pocket::class);
     }
+
+    /**
+     * Get the topups for the user.
+     */
+    public function topups()
+    {
+        return $this->hasMany(Topup::class);
+    }
+
+    /**
+     * Get total saldo from all pockets.
+     */
+    public function getTotalSaldoAttribute()
+    {
+        return $this->pockets()->sum('saldo');
+    }
+
+    /**
+     * Get total topup amount.
+     */
+    public function getTotalTopupAttribute()
+    {
+        return $this->topups()->where('status', 'SUCCESS')->sum('nominal');
+    }
 }

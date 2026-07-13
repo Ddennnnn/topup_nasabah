@@ -11,9 +11,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <p class="text-muted mb-2" style="font-size: 0.9rem; font-weight: 600;">Total Saldo</p>
+                            <p class="text-muted mb-2" style="font-size: 0.9rem; font-weight: 600;">Saldo Utama</p>
                             <h3 class="mb-0" style="color: #667eea; font-weight: 700;">
-                                Rp {{ number_format(15000000, 0, ',', '.') }}
+                                Rp {{ number_format(Auth::user()->saldo, 0, ',', '.') }}
                             </h3>
                         </div>
                         <div style="width: 60px; height: 60px; background: rgba(102, 126, 234, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="card-footer bg-white border-top">
                     <small class="text-success">
-                        <i class="bi bi-arrow-up"></i> +5% dari bulan lalu
+                        <i class="bi bi-check-circle"></i> Saldo aktif
                     </small>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                         <div>
                             <p class="text-muted mb-2" style="font-size: 0.9rem; font-weight: 600;">Total Pocket</p>
                             <h3 class="mb-0" style="color: #764ba2; font-weight: 700;">
-                                Rp {{ number_format(8500000, 0, ',', '.') }}
+                                Rp {{ number_format(Auth::user()->total_saldo, 0, ',', '.') }}
                             </h3>
                         </div>
                         <div style="width: 60px; height: 60px; background: rgba(118, 75, 162, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="card-footer bg-white border-top">
                     <small class="text-info">
-                        <i class="bi bi-info-circle"></i> 2 pocket tersimpan
+                        <i class="bi bi-info-circle"></i> {{ Auth::user()->pockets()->count() }} pocket tersimpan
                     </small>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                         <div>
                             <p class="text-muted mb-2" style="font-size: 0.9rem; font-weight: 600;">Total Transfer</p>
                             <h3 class="mb-0" style="color: #f59e0b; font-weight: 700;">
-                                Rp {{ number_format(3200000, 0, ',', '.') }}
+                                Rp {{ number_format(0, 0, ',', '.') }}
                             </h3>
                         </div>
                         <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="card-footer bg-white border-top">
                     <small class="text-warning">
-                        <i class="bi bi-clock-history"></i> Bulan ini
+                        <i class="bi bi-clock-history"></i> Segera hadir
                     </small>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                         <div>
                             <p class="text-muted mb-2" style="font-size: 0.9rem; font-weight: 600;">Total Topup</p>
                             <h3 class="mb-0" style="color: #10b981; font-weight: 700;">
-                                Rp {{ number_format(2500000, 0, ',', '.') }}
+                                Rp {{ number_format(Auth::user()->total_topup, 0, ',', '.') }}
                             </h3>
                         </div>
                         <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="card-footer bg-white border-top">
                     <small class="text-success">
-                        <i class="bi bi-check-circle"></i> 5 topup selesai
+                        <i class="bi bi-check-circle"></i> {{ Auth::user()->topups()->count() }} topup selesai
                     </small>
                 </div>
             </div>
@@ -112,28 +112,28 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 col-md-3 mb-3 mb-md-0">
-                            <button class="btn btn-outline-primary w-100 py-2">
+                            <a href="{{ route('topup.create') }}" class="btn btn-outline-primary w-100 py-2">
                                 <i class="bi bi-plus-circle d-block mb-2" style="font-size: 1.5rem;"></i>
                                 Topup
-                            </button>
+                            </a>
                         </div>
                         <div class="col-6 col-md-3 mb-3 mb-md-0">
-                            <button class="btn btn-outline-primary w-100 py-2">
+                            <button class="btn btn-outline-primary w-100 py-2" disabled>
                                 <i class="bi bi-arrow-left-right d-block mb-2" style="font-size: 1.5rem;"></i>
                                 Transfer
                             </button>
                         </div>
                         <div class="col-6 col-md-3 mb-3 mb-md-0">
-                            <button class="btn btn-outline-primary w-100 py-2">
+                            <a href="{{ route('pocket.index') }}" class="btn btn-outline-primary w-100 py-2">
                                 <i class="bi bi-wallet2 d-block mb-2" style="font-size: 1.5rem;"></i>
                                 Pocket
-                            </button>
+                            </a>
                         </div>
                         <div class="col-6 col-md-3">
-                            <button class="btn btn-outline-primary w-100 py-2">
+                            <a href="{{ route('topup.index') }}" class="btn btn-outline-primary w-100 py-2">
                                 <i class="bi bi-clock-history d-block mb-2" style="font-size: 1.5rem;"></i>
                                 Riwayat
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

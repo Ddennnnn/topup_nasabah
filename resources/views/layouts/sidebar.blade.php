@@ -14,7 +14,7 @@
         </a>
 
         <!-- Topup -->
-        <a class="nav-link" href="javascript:void(0)">
+        <a class="nav-link {{ request()->routeIs('topup.*') ? 'active' : '' }}" href="{{ route('topup.index') }}">
             <i class="bi bi-plus-circle"></i>
             <span>Topup</span>
         </a>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PocketController;
+use App\Http\Controllers\TopupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
 
     // Pocket routes
     Route::resource('pocket', PocketController::class);
+
+    // Topup routes
+    Route::resource('topup', TopupController::class)->only(['index', 'create', 'store']);
 });
 
 require __DIR__.'/auth.php';
