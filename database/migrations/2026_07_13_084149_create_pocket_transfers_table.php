@@ -13,17 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        // Migration ini duplikat dengan migration lain yang juga membuat tabel pocket_transfers.
-        // Guard ini mencegah failure saat migrate.
         if (!Schema::hasTable('pocket_transfers')) {
             Schema::create('pocket_transfers', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('user_id')->constrained()->onDelete('cascade');
-                $table->foreignId('from_pocket')->nullable()->constrained('pockets')->onDelete('cascade');
-                $table->foreignId('to_pocket')->nullable()->constrained('pockets')->onDelete('cascade');
-                $table->decimal('nominal', 15, 2);
-                $table->string('keterangan')->nullable();
-                $table->timestamp('created_at')->useCurrent();
+                $table->timestamps();
             });
         }
     }
@@ -38,4 +31,3 @@ return new class extends Migration
         Schema::dropIfExists('pocket_transfers');
     }
 };
-

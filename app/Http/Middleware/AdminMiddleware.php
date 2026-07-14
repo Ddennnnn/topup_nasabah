@@ -16,9 +16,22 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 'admin') {
-            abort(403);
+        if (!auth()->check()) {
+            return redirect()->route('login');
         }
+
+        $role = auth()->user()->role;
+        if (!is_string($role) || strtolower($role) !== 'admin') {
+            // Redirect mengikuti role agar UX tetap rapi
+            if (is_string($role) && strtolower($role) === 'user') {
+                return redirect()->route('dashboard');
+            }
+
+            return abort(403);
+        }
+
+
+
 
         return $next($request);
     }

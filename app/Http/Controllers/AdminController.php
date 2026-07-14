@@ -44,9 +44,10 @@ class AdminController extends Controller
 
     public function topups()
     {
-        $topups = Topup::latest('created_at')->paginate(15);
+        $topups = Topup::with('user')->where('status', 'PENDING')->latest('created_at')->paginate(15);
         return view('admin.topups', compact('topups'));
     }
+
 
     public function pockets()
     {
